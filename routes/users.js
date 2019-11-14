@@ -13,9 +13,10 @@ const User = require("../models/User");
 router.post(
   "/",
   [
-    check("username", "Please add name")
-      .not()
-      .isEmpty(),
+    check(
+      "username",
+      "Please enter username with 5 or more characters"
+    ).isLength({ min: 5 }),
     check(
       "password",
       "Please enter a password with 6 or more characters"
