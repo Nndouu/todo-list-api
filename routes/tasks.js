@@ -61,15 +61,59 @@ router.post(
 //@route    PUT api/tasks/:id
 //@desc     Updata task
 //@access   Private
-router.put("/:id", (req, res) => {
-  res.send("Update task");
+router.put("/:id", auth, async (req, res) => {
+  const { task_description, type, priority } = req.body;
+
+  //Build a task object
+  const taskFields = {};
+  //If has task_description/type/priority,add that to taskField
+  if (task_description) taskFields.task_description = task_description;
+  if (type) taskFields.type = type;
+  if (priority) taskFields.priority = priority;
+
+  try {
+    //Find task by taskID
+    let task = await Task.findById(req.params.id);
+    if (task) return res.status(404).json({ msg: "Task not found" });
+    //Make sure user owns task
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    //Update task
+    task = await Task.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: taskFields
+      },
+      //If this task not exist,create it
+      { new: true }
+    );
+    res.json();
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 //@route    DELETE api/tasks/:id
 //@desc     Delete task
 //@access   Private
-router.delete("/:id", (req, res) => {
-  res.send("Delete task");
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    let task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ msg: "Task not found" });
+    //Make sure user owns task
+    if (task.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+    await Task.findByIdAndRemove(req.params.id);
+
+    res.json({ msg: "Task Removed" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = router;
