@@ -5,9 +5,10 @@ const TaskSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "users"
   },
-  task: {
+  task_description: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   type: {
     type: String,
