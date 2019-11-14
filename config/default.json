@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://Nndou-TodoList:nnn123456@todolist-0zauk.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://Nndou-TodoList:nnn123456@todolist-0zauk.mongodb.net/todo-list?retryWrites=true&w=majority",
+  "jwtSecret": "todolist"
 }
