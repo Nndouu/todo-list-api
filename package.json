@@ -1,8 +1,8 @@
 {
   "name": "todo-list-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Todo List APP",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

@@ -3,14 +3,14 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
-const Tasks = require("../models/Tasks");
+const Task = require("../models/Task");
 
 //@route    GET api/tasks
 //@desc     Get all tasks of the user
 //@access   Private
 router.get("/", auth, async (req, res) => {
   try {
-    const tasks = await Tasks.find({ user: req.user.id }).sort({
+    const tasks = await Task.find({ user: req.user.id }).sort({
       data: -1
     });
     res.json(tasks);
@@ -28,10 +28,13 @@ router.post(
   [
     auth,
     [
-      check("task", "Task is required")
+      check("task_description", "task_description is required")
         .not()
-        .isEmpty()
-        .isLength({ max: 240 })
+        .isEmpty(),
+      check(
+        "task_description",
+        "task_description should not more than 240 characters"
+      ).isLength({ max: 240 })
     ]
   ],
   async (req, res) => {
@@ -43,6 +46,10 @@ router.post(
     const { task_description, type, priority } = req.body;
 
     try {
+      let taskCheck = await Task.findOne({ task_description });
+      if (taskCheck) {
+        return res.status(400).json({ msg: "Task already exists" });
+      }
       const newTask = new Task({
         task_description,
         type,
@@ -74,10 +81,15 @@ router.put("/:id", auth, async (req, res) => {
   try {
     //Find task by taskID
     let task = await Task.findById(req.params.id);
-    if (task) return res.status(404).json({ msg: "Task not found" });
+    if (!task) return res.status(404).json({ msg: "Task not found" });
     //Make sure user owns task
     if (task.user.toString() !== req.user.id) {
       return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    let taskCheck = await Task.findOne({ task_description });
+    if (taskCheck && task.id != taskCheck.id) {
+      return res.status(400).json({ msg: "Task already exists" });
     }
 
     //Update task
@@ -89,7 +101,7 @@ router.put("/:id", auth, async (req, res) => {
       //If this task not exist,create it
       { new: true }
     );
-    res.json();
+    res.json(task);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

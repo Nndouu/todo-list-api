@@ -1,3 +1,6 @@
 # Dependency directory
 # Deployed apps should consider commenting this line out:
 node_modules
+
+# Config Vars
+config/default.json
