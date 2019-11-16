@@ -7,7 +7,7 @@ const app = express();
 connectDB();
 
 // Init Middleware
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: true }));
 
 // Define Routes
 app.use("/api/tasks", require("./routes/tasks"));
