@@ -20,7 +20,7 @@ In the application, users can do the following:
 ## Features
 
 - Basics: MongoDB + Nodejs + Mongoose + Express
-- Frontend: Linked by frontend [todo-list]（https://github.com/Nndouu/todo-list）
+- Frontend: Linked by frontend [todo-list](https://github.com/Nndouu/todo-list)
 
 ## Quick Start
 
