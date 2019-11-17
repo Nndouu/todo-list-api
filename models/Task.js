@@ -11,7 +11,8 @@ const TaskSchema = mongoose.Schema({
     default: "unfinished"
   },
   priority: {
-    type: Number
+    type: Number,
+    default: 0
   },
   date: {
     type: Date,
