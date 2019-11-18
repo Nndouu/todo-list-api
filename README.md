@@ -2,8 +2,8 @@
 
 ## Online Api
 
-Deployed link: https://todo-list-nndou-api.herokuapp.com/api/
-Api Docs: https://todo-list-nndou-api.herokuapp.com/api-docs/
+- Deployed link: https://todo-list-nndou-api.herokuapp.com/api/
+- Api Docs: https://todo-list-nndou-api.herokuapp.com/api-docs/
 
 ## About the App
 

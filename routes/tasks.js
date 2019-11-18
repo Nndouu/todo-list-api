@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
  *        name: post
  *        description: The post to create
  *        schema:
- *          $ref: '#/definitions/Post'
+ *          $ref: '#/definitions/Task'
  *    responses:
  *      '201':
  *        description: Created
