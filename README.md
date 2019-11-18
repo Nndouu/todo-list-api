@@ -3,6 +3,7 @@
 ## Online Api
 
 Deployed link: https://todo-list-nndou-api.herokuapp.com/api/
+Api Docs: https://todo-list-nndou-api.herokuapp.com/api-docs/
 
 ## About the App
 
@@ -36,6 +37,10 @@ $ npm run server
 ```
 
 Then open http://localhost:5000
+
+### How to view API docs (Powered by Swagger)
+
+http://localhost:3000/api-docs/
 
 ## TODO
 

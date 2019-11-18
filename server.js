@@ -12,6 +12,9 @@ app.use(cors());
 
 app.use(express.json({ extended: true }));
 
+// Setup Swagger
+require("./config/swagger-config")(app);
+
 // Define Routes
 app.use("/api/tasks", require("./routes/tasks"));
 

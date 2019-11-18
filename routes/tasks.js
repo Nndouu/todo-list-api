@@ -4,9 +4,21 @@ const { check, validationResult } = require("express-validator");
 
 const Task = require("../models/Task");
 
-//@route    GET api/tasks
-//@desc     Get all tasks
-//@access   Private
+/**
+ * @swagger
+ * /api/tasks:
+ *  get:
+ *    tags:
+ *      - "Task"
+ *    summary: Returns a list of tasks
+ *    description: Use to request all tasks
+ *    produces:
+ *      - application/json
+ *    responses:
+ *      '200':
+ *        description: OK
+ */
+
 router.get("/", async (req, res) => {
   try {
     const tasks = await Task.find().sort({
@@ -19,9 +31,45 @@ router.get("/", async (req, res) => {
   }
 });
 
-//@route    POST api/tasks
-//@desc     Add new task
-//@access   Private
+/**
+ * @swagger
+ * /api/tasks:
+ *  post:
+ *    tags:
+ *      - "Task"
+ *    summary: Create a new task
+ *    description: Use to create a new task
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: post
+ *        description: The post to create
+ *        schema:
+ *          $ref: '#/definitions/Post'
+ *    responses:
+ *      '201':
+ *        description: Created
+ * definitions:
+ *   Task:
+ *     type: object
+ *     required:
+ *       - task_description
+ *     properties:
+ *       task_description:
+ *         type: string
+ *       type:
+ *         type: string
+ *         default: unfinished
+ *       priority:
+ *         type: number
+ *         default: 0
+ *       date:
+ *         type: Date
+ *         default: Date.now
+ *
+ */
+
 router.post(
   "/",
   [
@@ -62,9 +110,33 @@ router.post(
   }
 );
 
-//@route    PUT api/tasks/:id
-//@desc     Updata task
-//@access   Private
+/**
+ * @swagger
+ * /api/task/{taskID}:
+ *  put:
+ *    tags:
+ *      - "Task"
+ *    summary: Update a specific task
+ *    description: Use to update an existing task
+ *    parameters:
+ *      - in: path
+ *        name: taskID
+ *        required: true
+ *        type: string
+ *        description: The ID of a specific task
+ *      - in: body
+ *        name: task
+ *        description: The task to update
+ *        schema:
+ *          type: object
+ *          properties:
+ *            'data':
+ *              $ref: '#/definitions/Task'
+ *    responses:
+ *      '200':
+ *        description: Successful Operation
+ */
+
 router.put("/:id", async (req, res) => {
   const { task_description, type, priority } = req.body;
 
@@ -101,9 +173,25 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-//@route    DELETE api/tasks/:id
-//@desc     Delete task
-//@access   Private
+/**
+ * @swagger
+ * /api/task/{taskID}:
+ *  delete:
+ *    tags:
+ *      - "Task"
+ *    summary: Delete a specific task
+ *    description: Use to delete an existing task
+ *    parameters:
+ *      - in: path
+ *        name: taskID
+ *        required: true
+ *        type: string
+ *        description: The ID of a specific task
+ *    responses:
+ *      '200':
+ *        description: Successful Operation
+ */
+
 router.delete("/:id", async (req, res) => {
   try {
     let task = await Task.findById(req.params.id);
